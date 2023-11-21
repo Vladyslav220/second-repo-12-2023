@@ -4,8 +4,16 @@ import math
 
 class Point:
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        self._x = x
+        self._y = y
+
+    @property
+    def x(self):
+        return self._x
+
+    @property
+    def y(self):
+        return self._y
 
 
 class Color(Enum):
@@ -16,36 +24,39 @@ class Color(Enum):
 
 class Polygon:
     def __init__(self, *points):
-        self.points = list(points)
+        self._points = list(points)
+
+    @property
+    def points(self):
+        return self._points
 
     def perimeter(self):
-        if len(self.points) < 3:
+        if len(self._points) < 3:
             return 0
         perimeter = 0
-        for i in range(len(self.points)):
-            j = (i + 1) % len(self.points)
-            perimeter += math.sqrt((self.points[j].x - self.points[i].x) ** 2 + (self.points[j].y - self.points[i].y) ** 2)
+        for i in range(len(self._points)):
+            j = (i + 1) % len(self._points)
+            perimeter += math.sqrt((self._points[j].x - self._points[i].x) ** 2 + (self._points[j].y - self._points[i].y) ** 2)
         return perimeter
 
     def longest_diagonal(self):
-        if len(self.points) < 3:
+        if len(self._points) < 3:
             return 0
         max_distance = 0
-        for i in range(len(self.points)):
-            for j in range(i + 1, len(self.points)):
-                distance = math.sqrt((self.points[j].x - self.points[i].x) ** 2 + (self.points[j].y - self.points[i].y) ** 2)
+        for i in range(len(self._points)):
+            for j in range(i + 1, len(self._points)):
+                distance = math.sqrt((self._points[j].x - self._points[i].x) ** 2 + (self._points[j].y - self._points[i].y) ** 2)
                 if distance > max_distance:
                     max_distance = distance
         return max_distance
 
     def sort_by_x(self):
-        self.points.sort(key=lambda point: [point.x, point.y])
+        self._points.sort(key=lambda point: [point.x, point.y])
 
     def sort_by_y(self):
-        self.points.sort(key=lambda point: [point.y, point.x])
+        self._points.sort(key=lambda point: [point.y, point.x])
 
 
-# Приклад використання
 if __name__ == '__main__':
     p1 = Point(0, 0)
     p2 = Point(1, 0)
